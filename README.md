@@ -1,2 +1,2 @@
-# Algorithm
-알고리즘 문제풀이를 저장하는 저장소 입니다.
+# AlgorithmWithJava
+Java로 풀이한 알고리즘 문제들을 저장하는 저장소입니다.
