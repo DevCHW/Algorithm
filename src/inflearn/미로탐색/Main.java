@@ -1,3 +1,5 @@
+package inflearn.미로탐색;
+
 import java.util.*;
 
 public class Main {
