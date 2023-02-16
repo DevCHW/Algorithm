@@ -1,3 +1,5 @@
+package inflearn.토마토;
+
 import java.util.*;
 
 public class Main {
@@ -50,7 +52,7 @@ public class Main {
         }
     }
 
-    public void bfs(Queue<Point> queue,int n, int m, int[][] arr,int[][] day) {
+    public void bfs(Queue<Point> queue, int n, int m, int[][] arr, int[][] day) {
         while(!queue.isEmpty()) {
             Point o = queue.poll();
             for(int i=0; i<4; i++) {
@@ -66,3 +68,4 @@ public class Main {
     }
 
 }
+
