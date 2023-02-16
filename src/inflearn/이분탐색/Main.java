@@ -1,3 +1,5 @@
+package inflearn.이분탐색;
+
 
 import java.util.*;
 
@@ -29,3 +31,4 @@ public class Main {
         System.out.print(solution(n, m, arr));
     }
 }
+
