@@ -1,3 +1,5 @@
+package inflearn.미로의최단거리통로;
+
 
 import java.util.*;
 
@@ -44,3 +46,4 @@ public class Main {
         else System.out.println(visited[7][7]);
     }
 }
+
