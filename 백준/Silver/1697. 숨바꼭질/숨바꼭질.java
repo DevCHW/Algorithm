@@ -21,6 +21,7 @@ public class Main {
                 if(i == 2) nx = dx[i];
 
                 if(0<= nx && nx<= 100000 && visited[nx] == 0) {
+                    if(nx == k) return visited[current];
                     visited[nx] = visited[current] + 1;
                     queue.offer(nx);
                 }
