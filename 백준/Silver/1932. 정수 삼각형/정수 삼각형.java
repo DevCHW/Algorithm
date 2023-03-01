@@ -1,14 +1,20 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 public class Main {
     static int n;
     static int[][] arr;
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        n = Integer.parseInt(br.readLine());
+
         arr = new int[n][n];
+        StringTokenizer st;
         for(int i=0; i<n; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
             for(int j=0; j<=i; j++) {
-                arr[i][j] = sc.nextInt();
+                arr[i][j] = Integer.parseInt(st.nextToken());
             }
         }
         //문제의 핵심
@@ -29,7 +35,7 @@ public class Main {
     }
 
     private static int find(Integer[][] dp, int depth, int idx) {
-        //맨 꼭대기 까지 올라간다면 리턴.
+        //맨 아래까지 내려갔다면 리턴.
         if(depth == n-1) return dp[depth][idx];
         if(dp[depth][idx] == null) {
             dp[depth][idx] = arr[depth][idx] + Math.max(find(dp, depth + 1, idx), find(dp,depth+1,idx + 1));
