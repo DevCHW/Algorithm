@@ -15,7 +15,6 @@ public class Main {
             graph[a][b] = 1;
             graph[b][a] = 1;
         }
-
         System.out.println(solution(n, m, graph));
     }
 
@@ -23,8 +22,8 @@ public class Main {
         int answer = 0;
         for(int i=1; i<=n; i++) {
             if(visited[i] == 0) {
-                answer++;
                 dfs(i);
+                answer++;
             }
         }
         return answer;
