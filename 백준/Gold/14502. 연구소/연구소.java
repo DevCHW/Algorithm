@@ -39,7 +39,7 @@ public class Main {
                 }
             }
         }
-        // 모든 조합수에 대하여 일단 3개 벽을 세워보기. (3중 for문으로 따지기)
+        // 모든 조합수에 대하여 일단 3개 벽을 세워보기
         int len = zeroIndexList.size();
         for(int i=0; i<len; i++) {
             for(int j=i+1; j<len; j++) {
