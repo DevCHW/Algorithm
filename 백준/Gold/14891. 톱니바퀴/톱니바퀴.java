@@ -28,7 +28,7 @@ public class Main {
     private static int solution(char[][] wheel, int k, int[][] arr) {
         int answer = 0;
         for(int i=0; i<k ;i++) {
-            int idx = arr[i][0]-1;    //회전시킬 톱니바퀴 인덱스
+            int idx = arr[i][0]-1;    //회전시킬 톱니 인덱스
             int dir = arr[i][1];    //시계방향 1 반시계방향 -1
 
             char left = wheel[idx][6];
