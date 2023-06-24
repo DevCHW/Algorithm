@@ -7,7 +7,7 @@ class Main {
         for(int i=97; i<=122; i++) {
             int answer = str.indexOf(String.valueOf((char)i));
             System.out.print(answer + " ");
-        }//end of for--
+        }
     }
 }
 
