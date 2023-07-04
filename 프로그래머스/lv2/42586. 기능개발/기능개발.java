@@ -1,41 +1,43 @@
 import java.util.*;
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        int[] answer = {};
+        //map으로 배포되는 기능들 중복카운팅 하기.(배포되는 일자, 배포되는 기능 횟수)
+        Map<Integer, Integer> map = new LinkedHashMap<>();
         
-        Queue<Integer> queue = new LinkedList<>();
-        for(int i=0; i<progresses.length; i++) {
-            int a = progresses[i];
-            int b = speeds[i];
-            if((100-a)%b == 0) {
-                queue.offer((100-a)/b);
-            } else {
-                queue.offer(((100-a)/b)+1);
-            }
-        }
+        //탐색 배열 길이 뽑기
+        int len = progresses.length;
+        int[] arr = new int[len];
         
-        int a = queue.poll();
-        int count = 1;
-        List<Integer> list = new ArrayList<>();
-        
-        while(!queue.isEmpty()) {
-            int b = queue.poll();
+        // 작업들의 남은 일 수 계산하여 arr에 넣기
+        int beforeWorkDay = 0;
+        for(int i=0; i<len; i++) {
+            int percent = progresses[i];
+            int speed = speeds[i];
             
-            if(a >= b) {
-                count++;
-            } else {
-                list.add(count);
-                count = 1;
-                a = b;
-            }
-        }
-        list.add(count);
-        answer = new int[list.size()];
-        
-        for(int i=0; i<list.size(); i++) {
-            answer[i] = list.get(i);
+            int workDay = calculateWorkDay(percent, speed);
+            if (beforeWorkDay > workDay) workDay = beforeWorkDay;
+            
+            map.put(workDay, map.getOrDefault(workDay, 0) + 1);
+            beforeWorkDay = workDay;
         }
         
+        int[] answer = new int[map.size()];
+        int idx = 0;
+        for(int key : map.keySet()) {
+            answer[idx] = map.get(key);
+            idx++;
+        }
         return answer;
+    }
+    
+    // 남은 작업일자 계산
+    private int calculateWorkDay(int percent, int speed) {
+        int workDay = 0;
+        
+        while(percent < 100) {
+            workDay++;
+            percent += speed;
+        }
+        return workDay;
     }
 }
