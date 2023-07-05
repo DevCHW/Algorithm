@@ -1,43 +1,36 @@
 import java.util.*;
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        //map으로 배포되는 기능들 중복카운팅 하기.(배포되는 일자, 배포되는 기능 횟수)
-        Map<Integer, Integer> map = new LinkedHashMap<>();
-        
-        //탐색 배열 길이 뽑기
-        int len = progresses.length;
-        int[] arr = new int[len];
-        
-        // 작업들의 남은 일 수 계산하여 arr에 넣기
-        int beforeWorkDay = 0;
-        for(int i=0; i<len; i++) {
-            int percent = progresses[i];
-            int speed = speeds[i];
-            
-            int workDay = calculateWorkDay(percent, speed);
-            if (beforeWorkDay > workDay) workDay = beforeWorkDay;
-            
-            map.put(workDay, map.getOrDefault(workDay, 0) + 1);
-            beforeWorkDay = workDay;
+        Queue<Double> queue = new LinkedList<>();
+        // 작업일까지 남은 일수를 큐에 저장
+        for(int i=0; i<progresses.length; i++){
+            double remainDays = (100 - progresses[i]*1.0) / speeds[i];
+            double date = Math.ceil(remainDays); // 해당 progress를 처리하는데 걸리는 날짜
+            queue.add(date);
         }
-        
-        int[] answer = new int[map.size()];
-        int idx = 0;
-        for(int key : map.keySet()) {
-            answer[idx] = map.get(key);
-            idx++;
+
+        List<Integer> answerList = new ArrayList<>();
+
+        // 큐가 빌 때까지 반복
+        while(!queue.isEmpty()){
+            int count = 1; // 현재 배포될 기능의 수
+            double topDate = queue.poll(); // 큐의 맨 앞 원소를 빼서 가져옴
+
+            while (!queue.isEmpty() && topDate >= queue.peek()){ // 큐의 맨 앞 수보다 작거나 같으면 함께 배포
+                queue.poll();
+                count ++;
+            }
+            answerList.add(count);
         }
+
+
+        int[] answer = new int[answerList.size()];
+
+        // 리스트에 저장된 배포될 기능의 수 배열에 담기
+        for(int i=0; i<answer.length; i++ ){
+            answer[i] = answerList.get(i);
+        }
+
         return answer;
-    }
-    
-    // 남은 작업일자 계산
-    private int calculateWorkDay(int percent, int speed) {
-        int workDay = 0;
-        
-        while(percent < 100) {
-            workDay++;
-            percent += speed;
-        }
-        return workDay;
     }
 }
