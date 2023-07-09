@@ -2,7 +2,6 @@ import java.util.*;
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
         Queue<Double> queue = new LinkedList<>();
-        // 작업일까지 남은 일수를 큐에 저장
         for(int i=0; i<progresses.length; i++){
             double remainDays = (100 - progresses[i]*1.0) / speeds[i];
             double date = Math.ceil(remainDays); // 해당 progress를 처리하는데 걸리는 날짜
