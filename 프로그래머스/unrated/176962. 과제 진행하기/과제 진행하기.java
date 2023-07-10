@@ -3,7 +3,7 @@ class Solution {
     class Homework implements Comparable<Homework>{
         public String name; //과제명
         public int startTime; //시작시간
-        public int playTime; //남은 수행시간
+        public int playTime; 
         
         Homework(String name, int startTime, int playTime) {
             this.name = name;
