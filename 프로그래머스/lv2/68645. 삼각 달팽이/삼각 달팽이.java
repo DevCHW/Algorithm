@@ -3,7 +3,6 @@ class Solution {
     public int[] solution(int n) {
         int[] answer = {};
         
-        // 직각삼각형 채우기
         // 아래로 -> 옆으로 -> 대각선으로 반복하면서 채우기
         // 각 과정마다 n은 1씩 줄어든다.
         int row = -1;
