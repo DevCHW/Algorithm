@@ -1,17 +1,15 @@
 class Solution {
-    
-    int answer;
     public int solution(int[] numbers, int target) {
-        dfs(0, 0, numbers, target);
+        int answer = dfs(0, 0, numbers, target);
         return answer;
     }
     
-    private void dfs(int depth, int currentNumber, int[] numbers, int target) {
+    private int dfs(int depth, int sum, int[] numbers, int target) {
         if(depth == numbers.length) {
-            if(currentNumber == target) answer++;
-        } else {
-            dfs(depth+1, currentNumber+numbers[depth], numbers, target);
-            dfs(depth+1, currentNumber-numbers[depth], numbers, target);
+            if (sum == target) return 1;
+            else return 0;
         }
-    }
+        return dfs(depth+1, sum + numbers[depth], numbers, target) + 
+            dfs(depth+1, sum - numbers[depth], numbers, target);    //더하거나, 빼거나
+    } 
 }
