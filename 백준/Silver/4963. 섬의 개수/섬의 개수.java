@@ -1,69 +1,85 @@
 import java.util.*;
-class Position {
-    int x;
-    int y;
-    Position(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
 public class Main {
-    static int n;
-    static int m;
-    static int[][] map;
+    static class Position {
+        int x;
+        int y;
+
+        Position(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    // BFS 탐색을 위한 Queue 정의.
+    static Queue<Position> queue = new LinkedList<>();
+
+    // 방향벡터 정의(상, 하, 좌, 우, 대각선)
+    static int[] dx = {1, 0, -1, 0, 1, 1, -1, -1};
+    static int[] dy = {0, 1, 0, -1, -1, 1, -1, 1};
+    static boolean[][] visited;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         StringBuilder sb = new StringBuilder();
-        while(true) {
-            m = sc.nextInt();
-            n = sc.nextInt();
-            if(n == 0 && m == 0) break;
 
-            map = new int[n][m];
-            for(int i=0; i<n; i++) {
-                for(int j=0; j<m; j++) {
-                    map[i][j] = sc.nextInt();
+        while(true) {
+            int w = sc.nextInt();
+            int h = sc.nextInt();
+            if(w == 0 && h == 0) break;
+
+            int[][] graph = new int[h][w];
+
+            for(int i=0; i<h; i++) {
+                for(int j=0; j<w; j++) {
+                    graph[i][j] = sc.nextInt();
                 }
             }
-            sb.append(solution(n, m, map)).append("\n");
-        }//end of while--
-        System.out.print(sb);
+
+            sb.append(solution(w, h, graph)).append("\n");
+        }
+
+        System.out.println(sb);
     }
 
-    private static int solution(int n, int m, int[][] map) {
+    private static int solution(int w, int h, int[][] graph) {
+        // 방문처리 그래프 정의
+        visited = new boolean[h][w];
+
         int answer = 0;
-        // 1은 땅, 0은 바다
-        for(int i=0; i<n; i++) {
-            for(int j=0; j<m; j++) {
-                if(map[i][j] == 1) {
+
+        // 지도 탐색
+        for(int i=0; i<h; i++) {
+            for(int j=0; j<w; j++) {
+                if (graph[i][j] == 1 && !visited[i][j]) { // 땅을 만난다면
                     answer++;
-                    bfs(i,j);
+                    bfs(graph, i, j, w, h);
                 }
             }
         }
+
         return answer;
     }
 
-    private static void bfs(int x, int y) {
-        Queue<Position> queue = new LinkedList<>();
-        int[] dx = {0, 0, 1, -1, 1, -1, 1, -1};
-        int[] dy = {1, -1, 0, 0, 1, 1, -1, -1};
-        queue.offer(new Position(x,y));
-        map[x][y] = 0;
+    private static void bfs (int[][] graph, int x, int y, int weight, int height) {
+        // bfs 시작지점 queue에 삽입, 방문처리
+        queue.add(new Position(x, y));
+        visited[x][y] = true;   //방문처리
 
+        // queue가 빌 때 까지 그래프 탐색.
         while(!queue.isEmpty()) {
-            Position p = queue.poll();
-            for(int i=0; i<8; i++) {
-                int nx = p.x + dx[i];
-                int ny = p.y + dy[i];
+            Position pos = queue.poll();
 
-                if(0<= nx && nx < n && 0 <=ny && ny < m && map[nx][ny] == 1) {
-                    map[nx][ny] = 0;
+            for(int i=0; i<8; i++) {
+                int nx = pos.x + dx[i];
+                int ny = pos.y + dy[i];
+
+                if(nx >= 0 && nx < height && ny >= 0 && ny < weight
+                        && graph[nx][ny] == 1
+                        && !visited[nx][ny] ) {
+                    visited[nx][ny] = true; //방문처리
                     queue.offer(new Position(nx, ny));
                 }
             }
-
-        }//end of while--
+        }
     }
 }
