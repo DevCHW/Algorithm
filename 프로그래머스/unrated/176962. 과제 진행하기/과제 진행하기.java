@@ -52,7 +52,7 @@ class Solution {
                 runningTime -= beforeHw.playTime;
                 
                 while(runningTime > 0) {
-                    if(!stack.isEmpty()) { //멈춰 둔 과제가 있다면 진행.
+                    if(!stack.isEmpty()) { //멈춰 둔 과제가 있다면 진행
                         Homework tmpHw = stack.pop();
                         
                         if(tmpHw.playTime <= runningTime) { //멈춰 둔 과제를 끝낼 수 있다면
