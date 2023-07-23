@@ -1,25 +1,55 @@
 import java.util.*;
+
 public class Main {
+
+    private static int[][] dp;
+    private static final int RED = 0;
+    private static final int GREEN = 1;
+    private static final int BLUE = 2;
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int[][] arr = new int[n+1][3];
-        for(int i=1; i<=n; i++) {
-            for(int j=0; j<3; j++) {
-                arr[i][j] = sc.nextInt();
+
+        int[][] info = new int[n][3];
+        for(int i=0; i<n; i++) {
+            int red = sc.nextInt();
+            int green = sc.nextInt();
+            int blue = sc.nextInt();
+            info[i][RED] = red;
+            info[i][GREEN] = green;
+            info[i][BLUE] = blue;
+        }
+
+        System.out.println(solution(n,info));
+    }
+
+    private static int solution(int n, int[][] info) {
+        dp = new int[n][3];    //비용의 최솟값을 저장하면서 뻗기
+
+        dp[0][RED] = info[0][RED];
+        dp[0][GREEN] = info[0][GREEN];
+        dp[0][BLUE] = info[0][BLUE];
+
+        int redMin = dfs(n, RED, info);
+        int greenMin = dfs(n, GREEN, info);
+        int blueMin = dfs(n, BLUE, info);
+
+        return Math.min(Math.min(redMin, greenMin), blueMin);
+    }
+
+    private static int dfs(int n, int color, int[][] info) {
+        if(dp[n-1][color] == 0) {
+            if(color == RED) {
+                dp[n-1][RED] = Math.min(dfs(n-1, GREEN, info), dfs(n-1, BLUE, info)) + info[n-1][RED];
+            } else if (color == GREEN) {
+                dp[n-1][GREEN] = Math.min(dfs(n-1, RED, info), dfs(n-1, BLUE, info)) + info[n-1][GREEN];
+            } else {
+                dp[n-1][BLUE] = Math.min(dfs(n-1, RED, info), dfs(n-1, GREEN, info)) + info[n-1][BLUE];
+
             }
         }
-        System.out.println(solution(n, arr));
-    }
-    private static int solution(int n, int[][] arr) {
-//        arr[i][0] == i번째 집 빨강 비용.
-//        arr[i][1] == i번째 집 초록 비용.
-//        arr[i][2] == i번째 집 파랑 비용.
-        for(int i=2; i<=n; i++) {
-            arr[i][0] += Math.min(arr[i-1][1],arr[i-1][2]);
-            arr[i][1] += Math.min(arr[i-1][0],arr[i-1][2]);
-            arr[i][2] += Math.min(arr[i-1][0],arr[i-1][1]);
-        }
-        return Math.min(Math.min(arr[n][0],arr[n][1]),arr[n][2]);
+
+        return dp[n-1][color];
     }
 }
