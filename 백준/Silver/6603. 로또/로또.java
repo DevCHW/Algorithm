@@ -1,51 +1,47 @@
 import java.util.*;
 public class Main {
-    static String[] lotto;
-    static String[] arr;
-    static int[] visited;
-
+    private static int k;
+    private static int[] s;
+    private static boolean[] visited;
+    private static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
+        while(true){
 
-        while(true) {
-            int k = sc.nextInt();
-            arr = new String[k];
-            for(int i=0; i<k; i++) {
-                arr[i] = sc.nextInt()+"";
+            k = sc.nextInt();
+
+            if(k==0) break;
+
+            s = new int[k];
+            visited = new boolean[k];
+            for(int i =0; i<k; i++){
+                s[i] = sc.nextInt();
             }
 
-            if(k == 0) break;
-            
-            for(String x : solution(k)) {
-                System.out.println(x);
-            }
-            System.out.println();
-        }//end of while--
-    }
-
-    private static List<String> solution(int k) {
-        List<String> answer = new ArrayList<>();
-        lotto = new String[6];
-        visited = new int[k];
-
-        recursive(0,0,  answer, k);
-        return answer;
-    }
-
-    private static void recursive(int start, int depth, List<String> answer, int k) {
-        if(depth == 6) {
-            String str = String.join(" ", lotto);
-            answer.add(str);
-            return;
+            solution();
+            sb.append("\n");
         }
+        System.out.print(sb);
+    }
 
-        for(int i=start; i<k; i++) {
-            if(visited[i] == 0) {
-                visited[i] = 1;
-                lotto[depth] = arr[i];
-                recursive(i, depth + 1, answer, k);
-                visited[i] = 0;
+    private static void solution(){
+        dfs(0,0, "");
+    }
+
+    private static void dfs(int startNum, int depth, String tmp){
+//        System.out.println("현재 depth = " + depth + ", tmp = " + tmp);
+        if(depth == 6){
+            sb.append(tmp).append("\n");
+        } else {
+            for(int i=startNum; i<k; i++) {
+                if(!visited[i]) {
+                    // depth = 5
+                    // tmp = 1 2 3 4 5 
+                    visited[i] =true;
+                    dfs(i+1,depth+1, tmp + s[i]+ " ");
+                    visited[i] = false;
+                }
             }
         }
     }
