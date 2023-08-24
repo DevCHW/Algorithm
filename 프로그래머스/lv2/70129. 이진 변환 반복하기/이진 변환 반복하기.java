@@ -1,7 +1,10 @@
 class Solution {
     public int[] solution(String s) {
         int[] answer = {};
+        // 0 카운팅
         int zeroCnt = 0;
+        
+        // 1 카운팅
         int count = 0;
         while(!"1".equals(s)) {
             count++;
